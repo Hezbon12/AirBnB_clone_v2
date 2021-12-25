@@ -11,8 +11,17 @@ class FileStorage:
     def __init__(self):
         self.reload()
 
-    def all(self):
-        return FileStorage.__objects
+    def all(self, cls=None):
+        if cls is None:
+            return FileStorage.__objects
+
+        storage = {}
+        for obj_id in FileStorage.__objects:
+            obj_cls = FileStorage.__objects[obj_id].__class__.__name__
+            if cls == obj_cls:
+                storage[obj_id] = FileStorage.__objects[obj_id]
+
+        return storage
 
     def new(self, obj):
         if obj is not None:
@@ -25,6 +34,14 @@ class FileStorage:
 
         with open(FileStorage.__file_path, mode="w", encoding="utf-8") as fd:
             fd.write(json.dumps(store))
+
+    def update(self, cls, obj_id, key, new_value):
+        if obj_id not in FileStorage.__objects:
+            return 0
+
+        obj = FileStorage.__objects[obj_id]
+        setattr(obj, key, new_value)
+        return 1
 
     def reload(self):
         try:
@@ -41,3 +58,12 @@ class FileStorage:
                     FileStorage.__objects[k] = eval(cls)(temp[k])
         except Exception as e:
             pass
+
+    def delete(self, obj=None):
+        if obj is None:
+            return
+
+        FileStorage.__objects.pop(obj.id, 0)
+
+    def close(self):
+        self.save()
