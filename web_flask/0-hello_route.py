@@ -5,7 +5,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/airbnb-onepage", strict_slashes=False)
+@app.route("/airbnb-onepage/", strict_slashes=False)
 def hello():
     """ Printing hello HBNB to the home page"""
     return "Hello HBNB!"
