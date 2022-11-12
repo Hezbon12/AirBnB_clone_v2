@@ -1,15 +1,18 @@
 #!/usr/bin/python3
-""" This is a hello world flask app"""
+'''
+Start a Flask web application
+'''
 from flask import Flask
-
 app = Flask(__name__)
 
 
-@app.route("/airbnb-onepage/", strict_slashes=False)
-def hello():
-    """ Printing hello HBNB to the home page"""
-    return "Hello HBNB!"
+@app.route('/airbnb-onepage/', strict_slashes=False)
+def index():
+    '''
+    site index
+    '''
+    return 'Hello HBNB!'
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
